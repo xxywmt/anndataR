@@ -112,6 +112,7 @@ to_Seurat <- function(obj) { # nolint
 #'   not empty), followed by 'data', then 'scale.data'. The remaining non-empty slots will be stored in different
 #'   layers.
 #' @param ... Additional arguments passed to the generator function.
+#' @param layers
 #'
 #' @export
 #'
@@ -124,6 +125,7 @@ from_Seurat <- function(
     output_class = c("InMemoryAnnData", "HDF5AnnData"),
     assay = NULL,
     X = "counts",
+    layers = c("counts", "data", "scale.data"),
     ...) {
   output_class <- match.arg(output_class)
 
@@ -190,7 +192,7 @@ from_Seurat <- function(
   }
 
   # Add the remaining non-empty slots as layers
-  slots <- c("counts", "data", "scale.data")
+  slots <- layers
   slots <- slots[slots != X]
 
   for (slot in slots) {
